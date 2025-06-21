@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Razones por las que te amo - De Tefi para Sebitas</title>
+  <style>
+    body {
+      margin: 0;
+      background: #ffe6f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      user-select: none;
+      overflow: hidden;
+      position: relative;
+    }
+    #card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      width: 320px;
+      max-width: 90vw;
+      padding: 30px 25px;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+    }
+    #phrase {
+      font-size: 1.2rem;
+      color: #cc3366;
+      min-height: 90px;
+      line-height: 1.4;
+    }
+    #bottom-text {
+      margin-top: 25px;
+      font-size: 0.9rem;
+      color: #b84c7b;
+    }
+    #bottom-text strong {
+      display: block;
+      margin-top: 5px;
+    }
+    #love-letter {
+      margin-top: 25px;
+      font-size: 0.85rem;
+      color: #992244;
+      font-style: italic;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 1.5s ease, opacity 1.5s ease;
+      opacity: 0;
+    }
+    #love-letter.show {
+      max-height: 300px;
+      opacity: 1;
+    }
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      color: #ff3366;
+      animation: floatUp 2s ease forwards;
+      pointer-events: none;
+    }
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-80px) scale(1.5); }
+    }
+  </style>
+</head>
+<body>
+  <div id="card" role="button" tabindex="0" aria-label="Tarjeta interactiva, toca para cambiar la razón">
+    <div id="phrase">Toca aquí para descubrir un apodo o razón</div>
+    <div id="bottom-text">
+      De Tefi para Sebitas<br />
+      <strong>Porque chocolate por nosotros te amo</strong>
+    </div>
+    <div id="love-letter">
+      Y aunque no me alcanzan las palabras para expresarte todo lo que siento mi amor, quiero que siempre recuerdes que yo te amo con todo el corazón gordito precioso.
+      Porque el amor no se promete, se demuestra, y yo jamás me cansaré de hacer ninguna de las dos precioso hermoso.
+    </div>
+  </div>
+
+  <script>
+    const phrases = [
+      "Por precioso", "Por hermoso", "Por gordito", "Por tu personalidad",
+      "Por tu risa", "Por tus ojitos", "Por tu cabello", "Por que eres el mejor jugador Dota",
+      "Por que eres el mejor jugador de Fornite", "Por que eres el mejor jugador de Rust",
+      "Porque eres sensible", "Porque eres inteligente", "Porque eres coqueto",
+      "Porque mí gordito cochino", "Porque eres mio", "Por tu sentido del humor",
+      "Por tu creatividad", "Porque dibujas muy bonito", "Por tu atención",
+      "Por tu amor incondicional", "Porque tienes un hermoso cuerpo",
+      "Porque eres muy atento", "Por como me tratas", "Porque eres protector",
+      "Por tus celos", "Por tu voz", "Porque eres el amor de mí vida",
+      "Porque eres y serás el mejor socorrista", "Porque serás el mejor abogado",
+      "Porque serás el mejor y más genial streamer", "Porque eres perfecto",
+      "Porque eres el mejor futbolista"
+    ];
+
+    const card = document.getElementById("card");
+    const phraseDiv = document.getElementById("phrase");
+    const loveLetter = document.getElementById("love-letter");
+    let lastIndex = -1;
+
+    function createHeart(x, y) {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.style.left = x + "px";
+      heart.style.top = y + "px";
+      heart.textContent = "❤️";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 2000);
+    }
+
+    function showPhrase() {
+      let index;
+      do {
+        index = Math.floor(Math.random() * phrases.length);
+      } while (index === lastIndex);
+
+      lastIndex = index;
+      const phrase = phrases[index];
+      phraseDiv.textContent = `${index + 1}. ${phrase}`;
+
+      const rect = phraseDiv.getBoundingClientRect();
+      for (let i = 0; i < 8; i++) {
+        const x = rect.left + Math.random() * rect.width;
+        const y = rect.top + Math.random() * rect.height;
+        createHeart(x, y);
+      }
+
+      if (index === phrases.length - 1) {
+        loveLetter.classList.add("show");
+      } else {
+        loveLetter.classList.remove("show");
+      }
+    }
+
+    card.addEventListener("click", showPhrase);
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        showPhrase();
+      }
+    });
+  </script>
+</body>
+</html>
